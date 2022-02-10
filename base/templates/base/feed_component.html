@@ -1,0 +1,15 @@
+{%for discuss in discussion%}
+<div>
+    {% if request.user == discuss.host%}
+    <a href="{% url 'update_room' discuss.id %}"><button>Edit</button></a>
+    <a href="{% url 'delete_room' discuss.id %}"><button>Delete</button></a>
+    {%endif%}
+    <a href="{% url 'user-profile' discuss.host.id %}">@{{discuss.host.username}}</a>
+   
+    <h5>{{discuss.id}} ... <a href="{% url 'room' discuss.id %}">{{discuss.name}}</a></h5>
+
+    <small>{{discuss.topic.name}}</small>
+    <hr>
+</div>
+
+{% endfor%}

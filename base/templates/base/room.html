@@ -1,0 +1,69 @@
+{% extends 'main.html'%}
+
+{% block content%}
+
+<style>
+    .discuss-container{
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+    }
+    
+</style>
+<div class="discuss-container">
+
+    <div>
+
+
+
+        <h1><em> @{{discuss.name}}</em></h1>
+
+        <p>{{discuss.description}}</p>
+
+
+        {% if request.user.is_authenticated %}
+        <div class=" comment">
+            <h3>Conversation</h3>
+
+            <form method ="POST">
+                {% csrf_token%}
+                <label>Chat</label><br>
+                <input type="text" name="chat" placeholder="write a chat.."><br>
+                
+
+
+            </form>
+            {% endif%}
+            
+            <hr>
+
+            {%  for message in blog_messages %}
+            <div>
+                {%if request.user == message.user%}
+                <a href="{% url 'delete_chat' message.id%}">Delete</a>
+                {%endif%}
+                <small>
+                <em>@ {{message.user}}</em>  {{message.timeCreated|timesince}} ago<br>
+                    <p>
+                        {{message.body}}
+                    </p>
+                    <hr>
+                </small>
+            </div>
+            {% endfor %}
+        
+        </div>
+    </div>
+
+    <div>
+        <h3>participants</h3>
+        <hr>
+        {% for user in participants%}
+        <div >
+            <p>@{{ user.username}}</p>
+        </div>
+        <hr>
+        {%endfor%}
+    </div>
+
+</div>
+{% endblock content%}
